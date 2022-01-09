@@ -1,0 +1,15 @@
+.modal{
+    position: absolute;
+    right:20px;
+    top:50px; 
+    border-radius: 13;
+}
+.foto{
+    height: 55px;
+    width: 55px;
+}
+.content{
+
+    width: 300px;
+    padding:20px;
+}

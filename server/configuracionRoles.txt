@@ -1,0 +1,14 @@
+---crear rol
+localhost:8001/api/v1/role/create
+nombre
+---crear permiso
+localhost:8001/api/v1/permission/create
+nombre
+---asignar permiso a rol
+localhost:8001/api/v1/role/asign-one
+id_rol
+permiso (nombre)
+-- asignar rol a usuario
+localhost:8001/api/v1/user/asign-role
+id_user
+rol (nombre)

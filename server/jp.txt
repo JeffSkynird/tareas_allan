@@ -1,0 +1,7 @@
+
+
+transfers I, A(autorizada), P (Procesaa), C(Cancelada)
+
+ajuste I(Ingreso) , E(Egreso
+
+order I pendiente autorizacion', 'P procesando','E entregado','A nulado
