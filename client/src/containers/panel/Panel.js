@@ -77,70 +77,14 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff',
         overflow: 'hidden',
         position: 'relative',
-        '&:after': {
-            content: '""',
-            position: 'absolute',
-            width: '210px',
-            height: '210px',
-            background: '#4527a0',
-            borderRadius: '50%',
-            top: '-85px',
-            right: '-95px',
-            [theme.breakpoints.down('xs')]: {
-                top: '-105px',
-                right: '-140px'
-            }
-        },
-        '&:before': {
-            content: '""',
-            position: 'absolute',
-            width: '210px',
-            height: '210px',
-            background: '#4527a0',
-            borderRadius: '50%',
-            top: '-125px',
-            right: '-15px',
-            opacity: 0.5,
-            [theme.breakpoints.down('xs')]: {
-                top: '-155px',
-                right: '-70px'
-            }
-        }
+     
+       
     },
     card2: {
         backgroundColor: "#5e35b1",
         color: '#fff',
         overflow: 'hidden',
-        position: 'relative',
-        '&:after': {
-            content: '""',
-            position: 'absolute',
-            width: '210px',
-            height: '210px',
-            background: '#1565c0',
-            borderRadius: '50%',
-            top: '-85px',
-            right: '-95px',
-            [theme.breakpoints.down('xs')]: {
-                top: '-105px',
-                right: '-140px'
-            }
-        },
-        '&:before': {
-            content: '""',
-            position: 'absolute',
-            width: '210px',
-            height: '210px',
-            background: '#1565c0',
-            borderRadius: '50%',
-            top: '-125px',
-            right: '-15px',
-            opacity: 0.5,
-            [theme.breakpoints.down('xs')]: {
-                top: '-155px',
-                right: '-70px'
-            }
-        }
+        position: 'relative'
     },
     avatar: {
         margin: theme.spacing(1),

@@ -66,7 +66,7 @@ export default function Iniciar(props) {
   return (
     <form noValidate>
       <div className={classes.paper}>
-        <Avatar size="" className={classes.avatar}  src={logo}>
+        <Avatar size="" className={classes.avatar} >
 
         </Avatar>
         <Typography component="h1" variant="h5">

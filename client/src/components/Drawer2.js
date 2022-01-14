@@ -107,9 +107,7 @@ const useStyles = makeStyles((theme) => ({
         color: 'inherit', height: '100%'
     },
     root: {
-        [theme.breakpoints.up('sm')]: {
-            display: 'flex',
-        },
+      
         overflow: 'hidden'
     },
     nested: {
@@ -192,10 +190,10 @@ function ResponsiveDrawer(props) {
     const comprobador = (val) => {
 
         if (location.pathname == val) {
-            return { backgroundColor: '#242B38', borderRadius: 7, color: '#3F51B5', marginRight: 5, marginLeft: 5 }
+            return { backgroundColor: '#242B38', borderRadius: 7, color: '#242B38', marginRight: 5, marginLeft: 5 }
         } else {
             if (location.pathname == "/evaluacion" && val == "/evaluaciones") {
-                return { backgroundColor: '#EDE7F6', borderRadius: 7, color: '#6645B3', marginRight: 5, marginLeft: 5 }
+                return { backgroundColor: '#EDE7F6', borderRadius: 7, color: '#3f51b5', marginRight: 5, marginLeft: 5 }
 
             } else {
                 return { borderRadius: 7, marginRight: 5, marginLeft: 5 }
@@ -243,7 +241,7 @@ function ResponsiveDrawer(props) {
                         rol=="Gerente"&&(
                             <ListItem button onClick={() => props.history.push('panel')} style={comprobador('/panel')}>
                             <ListItemIcon style={{ color: '#9E9BA0' }}><DashboardIcon style={{ color: location.pathname == '/panel' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
-                            <ListItemText primary={'Dashboard'} style={{ color: location.pathname == '/panel' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
+                            <ListItemText primary={'Dashboard'} style={{ color: location.pathname == '/panel' ? 'rgb(16, 185, 129)'  : '#9E9BA0' }} />
                         </ListItem>
                         )
                     }
@@ -323,36 +321,10 @@ function ResponsiveDrawer(props) {
                                     <MenuIcon />
                                 </IconButton>
 
-                                <div className={classes.search}>
-                                    <div className={classes.searchIcon}>
-                                        <SearchIcon />
-                                    </div>
-                                    <InputBase
-                                        placeholder="Search…"
-                                        classes={{
-                                            root: classes.inputRoot,
-                                            input: classes.inputInput,
-                                        }}
-                                        inputProps={{ 'aria-label': 'search' }}
-                                    />
-                                </div>
+                              
                                 <div className={classes.grow} />
-
-                                <Avatar variant="rounded" style={{ marginTop: 5, backgroundColor: '#e3f2fd', borderRadius: 5, marginBottom: 15 }} >
-                                    <IconButton aria-label="show 4 new mails" color="inherit" >
-
-                                        <NotificationsIcon style={{ color: '#1e88e5' }} />
-
-                                    </IconButton>
-
-                                </Avatar>
-                                <Avatar variant="rounded" style={{ marginLeft: 10, marginTop: 5, backgroundColor: '#ede7f6', borderRadius: 5, marginBottom: 15 }} >
-                                    <IconButton aria-label="show 4 new mails" color="inherit">
-
-                                        <AccountCircle style={{ color: '#5e35b1' }} />
-                                    </IconButton>
-
-                                </Avatar>
+                                <span> BETO </span>
+                               
 
                             </Toolbar>
                         </AppBar>
@@ -383,10 +355,10 @@ function ResponsiveDrawer(props) {
                     :
                     null
             }
-            <main className={history != null ? history.location.pathname != "/bienvenida" ? classes.content : "" : ""}>
+            <main className={history != null ? history.location.pathname != "/login" ? classes.content : "" : ""}>
 
 
-                <div className={classes.toolbar} />
+                <div className={history != null ? history.location.pathname != "/login" ? classes.toolbar : "" : ""} />
                 {props.children}
             </main>
         </div>

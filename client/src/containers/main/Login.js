@@ -21,14 +21,14 @@ import splashL from '../../assets/login.png'
 import splashR from '../../assets/register.png'
 
 import Register from './Register'
-import Iniciar from './Iniciar'
+import Iniciar from './Iniciar2'
 import { useMediaQuery, useTheme } from '@material-ui/core';
 function Copyright() {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
         {'Copyright © '}
         <Link color="inherit">
-          Natural System
+          BETO System
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
@@ -77,18 +77,14 @@ export default function SignIn(props) {
     },[dato])
     return (
 
-        <Container component="main" maxWidth="xs">
-            {
+ 
                 tab==0?
                 <Iniciar />
                 :
                 <Register />
 
-            }
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
+          
+   
 
     );
 }

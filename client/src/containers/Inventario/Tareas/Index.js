@@ -53,30 +53,14 @@ export default function Sistemas(props) {
                 <Typography variant="h5" >
                     Tareas
                 </Typography>
-                <Button onClick={() => setOpen(true)} startIcon={<AddIcon />} variant="contained" color="primary">
+             
+            </Grid>
+            <Grid item xs={12} md={12} style={{display:'flex',justifyContent:'space-between'}}>
+            <Button onClick={() => setOpen(true)} startIcon={<AddIcon />} variant="contained" color="primary">
                         Nuevo
                     </Button>
             </Grid>
-
-            <Grid item xs={12} md={12} style={{ display: 'flex', marginTop: 10 }}>
-
-                <Card style={{ width: 300, height: 120, marginRight: 20, marginBottom: 5,borderRadius:12,borderColor: 'rgba(0, 0, 0, 0.12)',borderWidth:1,borderStyle: 'solid'}} elevation={0}>
-                    <CardContent>
-                        <Typography variant="subtitle1" gutterBottom>
-                            Totales
-                        </Typography>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Typography variant="h4" gutterBottom>
-                                {data.length}
-                            </Typography>
-                            <Avatar variant="rounded" style={{ backgroundColor: 'rgb(94, 53, 177)', borderRadius: 20 }} >
-                                <DesktopWindowsIcon />
-                            </Avatar>
-                        </div>
-                    </CardContent>
-                </Card>
-               
-            </Grid>
+      
       
             <Grid item xs={12}>
                 <MaterialTable
