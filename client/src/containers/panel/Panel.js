@@ -36,7 +36,7 @@ import { obtenerTodos as obtenerTodosS } from '../../utils/API/facturas';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Radio from './components/Radio';
 import noValue from '../../assets/noValue.svg'
-import { obtenerComprasYVentas, obtenerEstadoTareas, obtenerKpisPanel, obtenerUsuarioTareas, obtenerVentasCaja } from '../../utils/API/dashboard';
+import { obtenerComprasYVentas, obtenerEstadoTareas, obtenerKpisPanel, obtenerTareasEstado, obtenerUsuarioTareas, obtenerVentasCaja } from '../../utils/API/dashboard';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
@@ -159,6 +159,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Sistemas(props) {
     const initializer = React.useContext(Initializer);
     const classes = useStyles();
+    const [data3, setData3] = React.useState({completas:0,pendientes:0})
 
     const [data, setData] = React.useState(null)
     const [data0, setData0] = React.useState([])
@@ -186,6 +187,7 @@ export default function Sistemas(props) {
         if (initializer.usuario != null) {
             obtenerEstadoTareas(setEstadoTareas, initializer)
             obtenerUsuarioTareas(setEmpleados, initializer)
+            obtenerTareasEstado(setData3,initializer)
        
         }
     }, [initializer.usuario])
@@ -233,9 +235,7 @@ export default function Sistemas(props) {
 
     }
     const colorPuntaje=(val)=>{
-        console.log(val*100)
         if((val*100)<=54){
-            console.log("retorno")
             return 'red';
         }else if(val*100>=55&&val*100<=69){
             return 'yellow';
@@ -257,7 +257,7 @@ export default function Sistemas(props) {
             <Grid item xs={12} md={12} >
                 <Grid container spacing={2}>
        
-                    <Grid item xs={12} md={3}>
+                    <Grid item xs={12} md={4}>
                         <Card class={classes.card} style={{ width: '100%', height: 157, marginRight: 20, marginBottom: 5, backgroundColor: '#5e35b1', borderRadius: 12 }}>
                             <CardContent>
                                 <Avatar variant="rounded" style={{ zIndex: 1, height: 30, width: 30, position: 'absolute', top: 15, right: 10, backgroundColor: '#5e35b1', borderRadius: 5, marginBottom: 15 }} >
@@ -283,7 +283,7 @@ export default function Sistemas(props) {
                             </CardContent>
                         </Card>
                     </Grid>
-                    <Grid item xs={12} md={3}>
+                    <Grid item xs={12} md={4}>
                         <Card class={classes.card2} style={{ width: '100%', height: 157, marginRight: 20, marginBottom: 5, backgroundColor: '#1e88e5', borderRadius: 12 }}>
                             <CardContent>
                                 <Avatar variant="rounded" style={{ zIndex: 1, height: 30, width: 30, position: 'absolute', top: 15, right: 10, backgroundColor: '#1e88e5', borderRadius: 5, marginBottom: 15 }} >
@@ -311,8 +311,25 @@ export default function Sistemas(props) {
                 </Grid>
             </Grid>
      
-          
-            <Grid item md={12} xs={12}>
+            <Grid item md={6} xs={12}>
+                <div style={{ marginTop: 15 }} >
+                
+                {
+                        data3.pendientes != 0 && data3.completas != 0 ? (
+                            <PieChart pendientes={data3.pendientes} completas={data3.completas} text="Tareas Pendientes/Realizadas"/>
+                            )
+                            :
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                <img src={noValue} width={150} height={150} alt="" srcset="" />
+                                <p>No hay registros</p>
+                            </div>
+                    }
+                </div>
+
+
+            </Grid>
+     
+            <Grid item md={6} xs={12}>
                 <MaterialTable
                     icons={TableIcons}
                     columns={[
@@ -320,7 +337,7 @@ export default function Sistemas(props) {
                         { title: "Empleado", field: "user" },
 
                         {
-                            title: "Puntaje", field: "completas", render: rowData => <span style={{color:colorPuntaje(rowData.pendientes/(rowData.completas!=0?rowData.completas:1))}} >{(rowData.pendientes/(rowData.completas!=0?rowData.completas:1))*100}%</span>
+                            title: "Puntaje", field: "completas", render: rowData => <span style={{fontWeight:'bold',color:colorPuntaje(rowData.completas/(rowData.total!=0?rowData.total:1))}} >{(rowData.completas/(rowData.total!=0?rowData.total:1))*100}%</span>
                         },
 
 
@@ -332,7 +349,7 @@ export default function Sistemas(props) {
                     }
                     localization={LocalizationTable}
                 
-                    title="Listado empleados"
+                    title="Cumplimiento de tareas/Empleado"
                     options={{
 
                         actionsColumnIndex: -1,

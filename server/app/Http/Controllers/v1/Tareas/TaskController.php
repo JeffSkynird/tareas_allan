@@ -13,7 +13,8 @@ class TaskController extends Controller
     public function index()
     {
         try {
-            $data = Task::join('users', 'users.id', '=', 'tasks.user_id')
+            $data = Task::join('users', 'users.id', '=', 'tasks.asigned_to')
+            ->where('users.rol_id',2)
                 ->select('tasks.*', 'users.names as user')
                 ->get();
             return json_encode([
@@ -30,14 +31,39 @@ class TaskController extends Controller
             ]);
         }
     }
+   
     public function usersTasks()
     {
         try {
-            $data = User::selectRaw("(select count(*) from tasks  where tasks.user_id = users.id) as completas, (select count(*) from tasks where tasks.user_id = users.id and tasks.is_complete = 0) as pendientes, users.names||''||users.last_names as user")
+            $data = User::where('rol_id',2)->selectRaw("(select count(*) from tasks  where tasks.asigned_to = users.id) as total, (select count(*) from tasks where tasks.asigned_to = users.id and tasks.is_complete = 1) as completas, users.names||' '||users.last_names as user")
                 ->get();
             return json_encode([
                 "status" => "200",
                 'data'=>$data,
+                "message" => 'Data obtenida con éxito',
+                "type" => 'success'
+            ]);
+        } catch (\Exception $e) {
+            return json_encode([
+                "status" => "500",
+                "message" => $e->getMessage(),
+                "type" => 'error'
+            ]);
+        }
+    }
+    public function tareasTotales()
+    {
+        try {
+            $data = Task::selectRaw("(select count(*) from tasks  ) as total, (select count(*) from tasks where   tasks.is_complete = 1) as completas,(select count(*) from tasks where  tasks.is_complete = 0) as pendientes")
+                ->first();
+
+            $final = [
+                "pendientes"=>($data->total!=0?$data->pendientes/$data->total:0)*100,
+                "completas"=>($data->total!=0?$data->completas/$data->total:0)*100,
+            ];
+            return json_encode([
+                "status" => "200",
+                'data'=>$final,
                 "message" => 'Data obtenida con éxito',
                 "type" => 'success'
             ]);

@@ -28,6 +28,12 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('user/role', 'App\Http\Controllers\v1\Seguridad\RoleController@getRoleByUser');
     Route::get('user_tasks', 'App\Http\Controllers\v1\Tareas\TaskController@usersTasks');
 
+
+    Route::get('total_tasks', 'App\Http\Controllers\v1\Tareas\TaskController@tareasTotales');
+
+    
+
+
     Route::middleware('auth:api')->group(function () {
         Route::put('user', 'App\Http\Controllers\v1\Seguridad\UsuarioController@updateAuth');
         Route::get('user', 'App\Http\Controllers\v1\Seguridad\UsuarioController@showAuth');
