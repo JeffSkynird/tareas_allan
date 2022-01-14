@@ -76,7 +76,7 @@ class TaskController extends Controller
         try {
             $data = Task::join('users', 'users.id', '=', 'tasks.user_id')
                 ->select('tasks.*', 'users.names as user')
-                ->where('tasks.user_id', Auth::user()->id)
+                ->where('tasks.asigned_to', Auth::user()->id)
                 ->get();
             return json_encode([
                 "status" => "200",
