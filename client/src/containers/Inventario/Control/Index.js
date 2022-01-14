@@ -107,26 +107,14 @@ export default function Sistemas(props) {
 
                     actions={[
                         {
-                            icon: TableIcons.Edit,
+                            icon: TableIcons.VisibilityOutlinedIcon,
                             tooltip: 'Editar',
 
                             onClick: (event, rowData) => {
                                 setSelected(rowData)
                                 setOpen(true)
                             }
-                        },
-                       
-
-                        {
-                            icon: TableIcons.Delete,
-                            tooltip: "Borrar",
-
-                            onClick: (event, rowData) => {
-                                setSelected2(rowData)
-                                setOpen2(true)
-                            }
-                        },
-                     
+                        }
 
                     ]}
 

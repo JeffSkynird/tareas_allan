@@ -258,13 +258,16 @@ function ResponsiveDrawer(props) {
                         )
                     }
                   
-
+                  {
+                        rol=="Empleado"&&(
                  
                     <ListItem button onClick={() => props.history.push('/control')} style={comprobador('/control')}>
                         <ListItemIcon style={{ color: '#9E9BA0' }} ><AssignmentTurnedInIcon style={{ color: location.pathname == '/control' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
                         <ListItemText primary={'Control de tareas'} style={{ color: location.pathname == '/control' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
                     </ListItem>
 
+ )
+}
                     {
                         rol=="Gerente"&&(
                             <ListItem button onClick={() => props.history.push('/personal')} style={comprobador('/personal')}>

@@ -45,6 +45,7 @@ import FiltroPanel from './components/FiltroPanel';
 import { ObtenerGrafico1 } from '../../utils/API/reporte';
 import { estaAbiertaCaja } from '../../utils/API/cajas';
 import { Alert } from '@material-ui/lab';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -293,7 +294,7 @@ export default function Sistemas(props) {
 
                                 </Avatar>
                                 <Avatar variant="rounded" style={{ marginTop: 5, backgroundColor: '#1565c0', borderRadius: 5, marginBottom: 15 }} >
-                                    <AttachMoneyIcon />
+                                    <CheckCircleIcon />
                                 </Avatar>
 
 

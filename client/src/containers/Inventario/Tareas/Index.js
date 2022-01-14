@@ -85,6 +85,7 @@ export default function Sistemas(props) {
                       
                         { title: "Nombre", field: "name" },
                         { title: "Asignado a", field: "user" },
+                        { title: "Observacion", field: "observacion" },
                         { title: "Completada", field: "is_complete", render: rowData => <div style={{ display: 'flex', justifyContent: 'center' }}>
                             {rowData.is_complete==1 ? "Si"
                           
