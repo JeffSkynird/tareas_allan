@@ -4,7 +4,7 @@ const axios = require('axios');
 
 
 
-export const obtenerTareasEstado = (setData,store) => {
+export const obtenerTareasEstado = (params,setData,store) => {
   const { usuario, cargarUsuario, mostrarNotificacion, mostrarLoader } = store;
 
 
@@ -12,6 +12,7 @@ let url = ENTRYPOINT+"total_tasks"
 let setting = {
   method: "Get",
   url: url,
+  params,
   headers: { 'Accept': 'application/json',
   Authorization: "Bearer " + JSON.parse(desencriptarJson(usuario)).token, }
 
@@ -38,7 +39,7 @@ axios(setting)
 
   });
 }
-export const obtenerUsuarioTareas = (setData,store) => {
+export const obtenerUsuarioTareas = (params,setData,store) => {
   const { usuario, cargarUsuario, mostrarNotificacion, mostrarLoader } = store;
 
 
@@ -46,6 +47,7 @@ let url = ENTRYPOINT+"user_tasks"
 let setting = {
   method: "Get",
   url: url,
+  params,
   headers: { 'Accept': 'application/json',
   Authorization: "Bearer " + JSON.parse(desencriptarJson(usuario)).token, }
 
@@ -74,13 +76,14 @@ axios(setting)
   });
 }
 
-export const obtenerEstadoTareas = (setData,store) => {
+export const obtenerEstadoTareas = (params,setData,store) => {
   const { usuario, cargarUsuario, mostrarNotificacion, mostrarLoader } = store;
 
 
 let url = ENTRYPOINT+"pending_tasks"
 let setting = {
   method: "Get",
+  params,
   url: url,
   headers: { 'Accept': 'application/json',
   Authorization: "Bearer " + JSON.parse(desencriptarJson(usuario)).token, }

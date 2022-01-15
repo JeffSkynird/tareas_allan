@@ -34,7 +34,7 @@ export default function Crear(props) {
     React.useEffect(() => {
         if (props.sistema != null) {
             setNombre(props.sistema.name)
-            setAsignado(props.sistema.user_id)
+            setAsignado(props.sistema.asigned_to)
             setObservacion(props.sistema.observacion)
 
         }

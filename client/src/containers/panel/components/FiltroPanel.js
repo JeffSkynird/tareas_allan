@@ -7,6 +7,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import DateRangeIcon from '@material-ui/icons/DateRange';
+import Initializer from '../../../store/Initializer'
+
 import DateFnsUtils from '@date-io/date-fns';
 import { utcDate } from '../../../utils/Date'
 import {
@@ -15,14 +17,25 @@ import {
     MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import es from 'date-fns/locale/es'
-import { Grid, IconButton } from '@material-ui/core';
+import { obtenerTodos } from '../../../utils/API/usuarios.js';
+import { Autocomplete } from '@material-ui/lab';
+
+import { Grid, IconButton, TextField } from '@material-ui/core';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function AlertDialogSlide(props) {
-    const [open, setOpen] = React.useState(false);
+    const initializer = React.useContext(Initializer);
 
+    const [open, setOpen] = React.useState(false);
+    const [usuario, setUsuario] = React.useState("");
+    const [usuarioData, setUsuarioData] = React.useState([]);
+    React.useEffect(() => {
+        if (initializer.usuario != null) {
+            obtenerTodos(setUsuarioData, initializer)
+        }
+    }, [initializer.usuario])
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -41,6 +54,15 @@ export default function AlertDialogSlide(props) {
 
         let ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
         return ultimoDia
+    }
+    const getName = (id,data) => {
+        let object = null
+        data.map((e) => {
+            if (id == e.id) {
+                object = { ...e }
+            }
+        })
+        return object
     }
     return (
         <div>
@@ -125,6 +147,30 @@ export default function AlertDialogSlide(props) {
 
 
                         </Grid>
+                        <Grid item xs={12} md={12} >
+                        <Autocomplete
+                             size="small"
+                            style={{ width: '100%',marginBottom:10}}
+                                options={usuarioData}
+                                value={getName(usuario,usuarioData)}
+                                getOptionLabel={(option) => option.names+" "+option.last_names}
+                                onChange={(event, value) => {
+                                    if (value != null) {
+
+                                        setUsuario(value.id)
+                                    } else {
+
+                                        setUsuario('')
+
+                                    }
+
+                                }} // prints the selected value
+                                renderInput={params => (
+                                    <TextField {...params} label="Seleccione una usuario" variant="outlined" fullWidth />
+                                )}
+                            />
+                           
+                        </Grid>
                     </Grid>
 
                 </DialogContent>
@@ -134,7 +180,7 @@ export default function AlertDialogSlide(props) {
                         Cancelar
                     </Button>
                     <Button onClick={()=>{
-                        props.filtrarFecha()
+                        props.filtrarFecha(usuario)
                         handleClose()
                     }} color="primary">
                         Aceptar

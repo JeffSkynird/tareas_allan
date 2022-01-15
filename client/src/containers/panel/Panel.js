@@ -129,9 +129,9 @@ export default function Sistemas(props) {
     const [empleados,setEmpleados] = React.useState([])
     React.useEffect(() => {
         if (initializer.usuario != null) {
-            obtenerEstadoTareas(setEstadoTareas, initializer)
-            obtenerUsuarioTareas(setEmpleados, initializer)
-            obtenerTareasEstado(setData3,initializer)
+            obtenerEstadoTareas({},setEstadoTareas, initializer)
+            obtenerUsuarioTareas({},setEmpleados, initializer)
+            obtenerTareasEstado({},setData3,initializer)
        
         }
     }, [initializer.usuario])
@@ -174,8 +174,12 @@ export default function Sistemas(props) {
         })
         return object
     }
-    const filtrarFecha=()=>{
-        obtenerKpisPanel({desde:utcDate(desde),hasta:utcDate(hasta)},setData, initializer)
+    const filtrarFecha=(userId)=>{
+       
+        obtenerEstadoTareas({desde:utcDate(desde),hasta:utcDate(hasta),user_id:userId},setEstadoTareas, initializer)
+        obtenerUsuarioTareas({desde:utcDate(desde),hasta:utcDate(hasta),user_id:userId},setEmpleados, initializer)
+        setData3({completas:0,pendientes:0})
+        obtenerTareasEstado({desde:utcDate(desde),hasta:utcDate(hasta),user_id:userId},setData3,initializer)
 
     }
     const colorPuntaje=(val)=>{
@@ -195,7 +199,8 @@ export default function Sistemas(props) {
                 <Typography variant="h5" >
                     Dashboard 
                 </Typography> 
-                
+                <FiltroPanel desde={desde} hasta={hasta} setDesde={setDesde} setHasta={setHasta} filtrarFecha={filtrarFecha}/>
+
             </Grid>
             
             <Grid item xs={12} md={12} >
@@ -259,7 +264,7 @@ export default function Sistemas(props) {
                 <div style={{ marginTop: 15 }} >
                 
                 {
-                        data3.pendientes != 0 && data3.completas != 0 ? (
+                        data3.pendientes != 0 || data3.completas != 0 ? (
                             <PieChart pendientes={data3.pendientes} completas={data3.completas} text="Tareas Pendientes/Realizadas"/>
                             )
                             :
