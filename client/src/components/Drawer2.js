@@ -58,6 +58,7 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 const drawerWidth = 240;
 
+
 const useStyles = makeStyles((theme) => ({
     inputRoot: {
         color: 'inherit',
@@ -72,7 +73,12 @@ const useStyles = makeStyles((theme) => ({
             width: '20ch',
         },
     },
-
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+          display: 'none',
+        },
+      },
     search: {
         height: 45,
         borderWidth: 1,
@@ -107,7 +113,9 @@ const useStyles = makeStyles((theme) => ({
         color: 'inherit', height: '100%'
     },
     root: {
-      
+        [theme.breakpoints.up('sm')]: {
+            display: 'flex',
+        },
         overflow: 'hidden'
     },
     nested: {
@@ -120,27 +128,34 @@ const useStyles = makeStyles((theme) => ({
         height: theme.spacing(10),
 
     },
-
-
-    menuButton: {
-        marginRight: theme.spacing(2),
+    drawer: {
+        overflow: 'hidden',
         [theme.breakpoints.up('sm')]: {
-            display: 'none',
+            width: drawerWidth,
+            flexShrink: 0,
+        },
+    },
+    appBar: {
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(100% - ${drawerWidth}px)`,
+            marginLeft: drawerWidth,
         },
     },
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
+        overflowX: 'hidden',
     },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
-    },
+      },
     grow: {
         flexGrow: 1,
     },
 }));
+
 
 function ResponsiveDrawer(props) {
     const { window } = props;
@@ -316,7 +331,7 @@ function ResponsiveDrawer(props) {
                                     aria-label="open drawer"
                                     edge="start"
                                     onClick={handleDrawerToggle}
-
+                                    className={classes.menuButton}
                                 >
                                     <MenuIcon />
                                 </IconButton>
@@ -328,11 +343,10 @@ function ResponsiveDrawer(props) {
 
                             </Toolbar>
                         </AppBar>
-                        <nav className={classes.drawer} aria-label="mailbox folders">
+                        <nav aria-label="mailbox folders" className={classes.drawer}>
                             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-                            <Hidden implementation="css">
+                            <Hidden smUp implementation="css">
                                 <Drawer
-
                                     container={container}
                                     variant="temporary"
                                     anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -341,10 +355,20 @@ function ResponsiveDrawer(props) {
                                     classes={{
                                         paper: classes.drawerPaper,
                                     }}
-
                                     ModalProps={{
                                         keepMounted: true, // Better open performance on mobile.
                                     }}
+                                >
+                                    {drawer}
+                                </Drawer>
+                            </Hidden>
+                            <Hidden xsDown implementation="css">
+                                <Drawer
+                                    classes={{
+                                        paper: classes.drawerPaper,
+                                    }}
+                                    variant="permanent"
+                                    open
                                 >
                                     {drawer}
                                 </Drawer>
@@ -355,10 +379,10 @@ function ResponsiveDrawer(props) {
                     :
                     null
             }
-            <main className={history != null ? history.location.pathname != "/login" ? classes.content : "" : ""}>
+            <main className={classes.content} style={{ overflow: 'auto', padding: 15 }} >
 
 
-                <div className={history != null ? history.location.pathname != "/login" ? classes.toolbar : "" : ""} />
+<div className={classes.toolbar} />
                 {props.children}
             </main>
         </div>

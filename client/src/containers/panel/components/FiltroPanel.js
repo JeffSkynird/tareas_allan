@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import Initializer from '../../../store/Initializer'
-
+import FilterListIcon from '@material-ui/icons/FilterList';
 import DateFnsUtils from '@date-io/date-fns';
 import { utcDate } from '../../../utils/Date'
 import {
@@ -68,8 +68,8 @@ export default function AlertDialogSlide(props) {
         <div>
   
 
-            <IconButton aria-label="abrirmodal" onClick={handleClickOpen}>
-                <DateRangeIcon />
+            <IconButton aria-label="abrirmodal" onClick={handleClickOpen} size='medium'>
+                <FilterListIcon />
                 </IconButton>
             <Dialog
                 open={open}
@@ -91,14 +91,23 @@ export default function AlertDialogSlide(props) {
                         
                         </DialogContentText>
                  
-                    <Button onClick={()=>{
+                 <div>
+                 <Button onClick={()=>{
                         props.setDesde(getFirst())
                         props.setHasta(getLast())
                    
-                    }}  color="default" variant="outlined">MES ACTUAL</Button>
+                    }}  color="default" variant="outlined" style={{marginRight:5}}>MES ACTUAL</Button>
+                           <Button onClick={()=>{
+                        props.setDesde(getFirst())
+                        props.setHasta(getLast())
+                   
+                    }}  color="default" variant="outlined">HOY</Button>
+                 </div>
                   
                     </Grid>
-
+           
+                  
+                    
                         <Grid item md={6} xs={12}>
 
 
