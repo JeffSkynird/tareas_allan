@@ -379,10 +379,11 @@ function ResponsiveDrawer(props) {
                     :
                     null
             }
-            <main className={classes.content} style={{ overflow: 'auto', padding: 15 }} >
+        
+<main className={history != null ? history.location.pathname != "/login" ? classes.content : "" : ""}>
 
 
-<div className={classes.toolbar} />
+<div className={history != null ? history.location.pathname != "/login" ? classes.toolbar : "" : ""} />
                 {props.children}
             </main>
         </div>
