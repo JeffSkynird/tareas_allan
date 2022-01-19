@@ -226,7 +226,7 @@ function ResponsiveDrawer(props) {
     const drawer = (
         <div style={{ backgroundColor: '#111827', height: '100%' }} >
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                <Avatar size="" className={classes.avatar} src={logo}>
+                <Avatar size="" className={classes.avatar} >
 
                 </Avatar>
 

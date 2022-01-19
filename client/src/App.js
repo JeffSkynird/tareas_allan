@@ -40,7 +40,7 @@ import Tareas from  './containers/Inventario/Tareas/Index'
 import Control from  './containers/Inventario/Control/Index'
 import Redirecting from './containers/Redirect'
 
-import { green } from '@material-ui/core/colors';
+import { green,red } from '@material-ui/core/colors';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -50,7 +50,7 @@ export default function App(props) {
   const { usuario, notificacion, mostrarNotificacion, loader, sound, playSound } = useContext(Initializer);
   let history = useHistory();
   const [colorP, setColorP] = useState(green)
-  const [colorS, setColorS] = useState(green)
+  const [colorS, setColorS] = useState(red)
   const [white, setWhite] = useState(createMuiTheme({
     palette: {
       primary: colorP,

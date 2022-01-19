@@ -20,7 +20,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Initializer from '../../store/Initializer'
-import fondo from './../../assets/fondoLogin1.jpg'
+import fondo from './../../assets/fondo1T.jpg'
 import { iniciarSesion } from '../../utils/API/auth';
 function Copyright() {
   return (
@@ -40,11 +40,12 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
- 
+    height:'100%',
+    width:'100%',
+    objectFit:'cover',
     [theme.breakpoints.down('sm')]:{
-      display:'none'
+     display:'none'
     },
-height:'40%'
 
   },
   paper: {

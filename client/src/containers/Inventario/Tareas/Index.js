@@ -15,7 +15,7 @@ import Initializer from '../../../store/Initializer'
 
 import { LocalizationTable, TableIcons, removeAccent } from '../../../utils/table.js'
 import MaterialTable from "material-table";
-import { Grid } from '@material-ui/core';
+import { Chip, Grid } from '@material-ui/core';
 import { obtenerTodos } from '../../../utils/API/tareas';
 import Crear from './componentes/Crear'
 import Eliminar from './componentes/Eliminar'
@@ -70,13 +70,10 @@ export default function Sistemas(props) {
                         { title: "Nombre", field: "name" },
                         { title: "Asignado a", field: "user" },
                         { title: "Observacion", field: "observacion" },
-                        { title: "Completada", field: "is_complete", render: rowData => <div style={{ display: 'flex', justifyContent: 'center' }}>
-                            {rowData.is_complete==1 ? "Si"
-                          
-                           :"No"}
-                                 </div>
+                        { title: "Completada", field: "is_complete", render: rowData => 
+                        <Chip label={rowData.is_complete==1?'Si':'No'} color={rowData.is_complete==1?'primary':'secondary'}  /> 
+                       
                         },
-                      
                         { title: "Registro", field: "created_at", type: "datetime" },
 
 
