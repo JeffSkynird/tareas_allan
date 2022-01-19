@@ -20,7 +20,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Initializer from '../../store/Initializer'
-import fondo from './../../assets/fondo1T.jpg'
+import fondo from './../../assets/fondoLogin1.jpg'
 import { iniciarSesion } from '../../utils/API/auth';
 function Copyright() {
   return (
@@ -40,14 +40,11 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-  
  
     [theme.breakpoints.down('sm')]:{
       display:'none'
     },
-    height: '100%',
-      width: '100%',
-      objectFit: 'cover'
+height:'40%'
 
   },
   paper: {
@@ -90,7 +87,7 @@ export default function SignInSide(props) {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7}  >
+      <Grid item xs={false} sm={4} md={7}   style={{display:'flex',alignItems:'center',justifyContent:'flex-start'}}>
 
       <img src={fondo} className={classes.image} />
 

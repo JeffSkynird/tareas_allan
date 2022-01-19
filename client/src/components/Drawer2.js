@@ -49,7 +49,7 @@ import { useLocation, Switch } from 'react-router-dom';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import RoomIcon from '@material-ui/icons/Room';
-import logo from '../assets/drawer.jpg'
+import logo from '../assets/logo1.jpg'
 import { Badge, Box, Button, Grid } from '@material-ui/core';
 import { obtenerPermisosAuth } from '../utils/API/roles';
 import { obtenerRol } from '../utils/API/usuarios';
@@ -75,8 +75,12 @@ const useStyles = makeStyles((theme) => ({
     },
     menuButton: {
         marginRight: theme.spacing(2),
+        pointerEvents:'auto',
         [theme.breakpoints.up('sm')]: {
-          display: 'none',
+          
+     
+          pointerEvents:'none',
+
         },
       },
     search: {
@@ -123,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(2),
-
+        objectFit: 'cover',
         width: theme.spacing(10),
         height: theme.spacing(10),
 
@@ -323,8 +327,8 @@ function ResponsiveDrawer(props) {
                 history.location.pathname != "/bienvenida" && history.location.pathname != "/login" ?
 
                     <React.Fragment>
-                        <AppBar position="fixed" className={classes.appBar} color="white" elevation={0} style={{ border: '1px solid rgba(0, 0, 0, 0.12)' }}>
-                            <Toolbar>
+                        <AppBar position="fixed" className={classes.appBar} color="white" elevation={0} style={{ border: '1px solid rgba(0, 0, 0, 0.12)',}}>
+                            <Toolbar style={{display:'flex',justifyContent:'space-between'}}>
 
                                 <IconButton
                                     color="inherit"
@@ -335,9 +339,10 @@ function ResponsiveDrawer(props) {
                                 >
                                     <MenuIcon />
                                 </IconButton>
+                    
 
+                                <img src={   logo} alt="" style={{height:50}} srcset="" />
                               
-                                <div className={classes.grow} />
                                 <span> BETO </span>
                                
 

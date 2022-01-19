@@ -49,6 +49,13 @@ export default function AlertDialogSlide(props) {
 
         return primerDia
     }
+    const sumarDias = (dias)=>{
+        let date = new Date();
+        let primerDia = new Date(date.getFullYear(), date.getMonth(), dias);
+
+        return primerDia
+
+    }
     const getLast = () => {
         let date = new Date();
 
