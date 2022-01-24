@@ -20,7 +20,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Initializer from '../../store/Initializer'
-import fondo from './../../assets/fondo1T.jpg'
+import fondo from './../../assets/fondoLogin.jpg'
 import { iniciarSesion } from '../../utils/API/auth';
 function Copyright() {
   return (
