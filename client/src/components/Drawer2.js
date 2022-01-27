@@ -75,14 +75,14 @@ const useStyles = makeStyles((theme) => ({
     },
     menuButton: {
         marginRight: theme.spacing(2),
-        pointerEvents:'auto',
+        pointerEvents: 'auto',
         [theme.breakpoints.up('sm')]: {
-          
-     
-          pointerEvents:'none',
+
+
+            pointerEvents: 'none',
 
         },
-      },
+    },
     search: {
         height: 45,
         borderWidth: 1,
@@ -154,7 +154,7 @@ const useStyles = makeStyles((theme) => ({
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
-      },
+    },
     grow: {
         flexGrow: 1,
     },
@@ -239,7 +239,7 @@ function ResponsiveDrawer(props) {
                     overflow: 'hidden', textAlign: 'center',
                     textOverflow: 'ellipsis', backgroundColor: '#1B2130'
                 }}>
-                    <Typography variant="subtitle1" style={{ fontSize: 15, color: '#9E9BA0',fontWeight:'bold' }}>
+                    <Typography variant="subtitle1" style={{ fontSize: 15, color: '#9E9BA0', fontWeight: 'bold' }}>
                         {rol}
                     </Typography>
                     <Typography variant="subtitle1" style={{ fontSize: 15, color: '#9E9BA0' }}>
@@ -257,44 +257,44 @@ function ResponsiveDrawer(props) {
 
 
                     {
-                        rol=="Gerente"&&(
+                        rol == "Gerente" && (
                             <ListItem button onClick={() => props.history.push('panel')} style={comprobador('/panel')}>
-                            <ListItemIcon style={{ color: '#9E9BA0' }}><DashboardIcon style={{ color: location.pathname == '/panel' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
-                            <ListItemText primary={'Dashboard'} style={{ color: location.pathname == '/panel' ? 'rgb(16, 185, 129)'  : '#9E9BA0' }} />
-                        </ListItem>
+                                <ListItemIcon style={{ color: '#9E9BA0' }}><DashboardIcon style={{ color: location.pathname == '/panel' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
+                                <ListItemText primary={'Dashboard'} style={{ color: location.pathname == '/panel' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
+                            </ListItem>
                         )
                     }
-                  
 
-                  {
-                        rol=="Gerente"&&(
-                            <ListItem button onClick={() => props.history.push('/tareas')} style={comprobador('/tareas')}>
-                            <ListItemIcon style={{ color: '#9E9BA0' }} ><AssignmentIcon style={{ color: location.pathname == '/tareas' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
-                            <ListItemText primary={'Tareas'} style={{ color: location.pathname == '/tareas' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
-                        </ListItem>
-                        )
-                    }
-                  
-                  {
-                        rol=="Empleado"&&(
-                 
-                    <ListItem button onClick={() => props.history.push('/control')} style={comprobador('/control')}>
-                        <ListItemIcon style={{ color: '#9E9BA0' }} ><AssignmentTurnedInIcon style={{ color: location.pathname == '/control' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
-                        <ListItemText primary={'Control de tareas'} style={{ color: location.pathname == '/control' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
-                    </ListItem>
 
- )
-}
                     {
-                        rol=="Gerente"&&(
-                            <ListItem button onClick={() => props.history.push('/personal')} style={comprobador('/personal')}>
-                            <ListItemIcon style={{ color: '#9E9BA0' }} ><PeopleOutlineIcon style={{ color: location.pathname == '/personal' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
-                            <ListItemText primary={'Personal'} style={{ color: location.pathname == '/personal' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
-                        </ListItem>
+                        rol == "Gerente" && (
+                            <ListItem button onClick={() => props.history.push('/tareas')} style={comprobador('/tareas')}>
+                                <ListItemIcon style={{ color: '#9E9BA0' }} ><AssignmentIcon style={{ color: location.pathname == '/tareas' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
+                                <ListItemText primary={'Tareas'} style={{ color: location.pathname == '/tareas' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
+                            </ListItem>
                         )
                     }
-                  
-                 
+
+                    {
+                        rol == "Empleado" && (
+
+                            <ListItem button onClick={() => props.history.push('/control')} style={comprobador('/control')}>
+                                <ListItemIcon style={{ color: '#9E9BA0' }} ><AssignmentTurnedInIcon style={{ color: location.pathname == '/control' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
+                                <ListItemText primary={'Control de tareas'} style={{ color: location.pathname == '/control' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
+                            </ListItem>
+
+                        )
+                    }
+                    {
+                        rol == "Gerente" && (
+                            <ListItem button onClick={() => props.history.push('/personal')} style={comprobador('/personal')}>
+                                <ListItemIcon style={{ color: '#9E9BA0' }} ><PeopleOutlineIcon style={{ color: location.pathname == '/personal' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
+                                <ListItemText primary={'Personal'} style={{ color: location.pathname == '/personal' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
+                            </ListItem>
+                        )
+                    }
+
+
 
 
                 </List>
@@ -319,7 +319,7 @@ function ResponsiveDrawer(props) {
     const container = window !== undefined ? () => window().document.body : undefined;
     console.log(history)
     return (
-        <div >
+        <div className={ history.location.pathname != "/login"?classes.root:""}>
             <CssBaseline />
 
             {
@@ -327,8 +327,8 @@ function ResponsiveDrawer(props) {
                 history.location.pathname != "/bienvenida" && history.location.pathname != "/login" ?
 
                     <React.Fragment>
-                        <AppBar position="fixed" className={classes.appBar} color="white" elevation={0} style={{ border: '1px solid rgba(0, 0, 0, 0.12)',}}>
-                            <Toolbar style={{display:'flex',justifyContent:'space-between'}}>
+                        <AppBar position="fixed" className={classes.appBar} color="white" elevation={0} style={{ border: '1px solid rgba(0, 0, 0, 0.12)', }}>
+                            <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
 
                                 <IconButton
                                     color="inherit"
@@ -339,12 +339,12 @@ function ResponsiveDrawer(props) {
                                 >
                                     <MenuIcon />
                                 </IconButton>
-                    
 
-                                <img src={   logo} alt="" style={{height:50}} srcset="" />
-                              
+
+                                <img src={logo} alt="" style={{ height: 50 }} srcset="" />
+
                                 <span> BETO </span>
-                               
+
 
                             </Toolbar>
                         </AppBar>
@@ -384,11 +384,11 @@ function ResponsiveDrawer(props) {
                     :
                     null
             }
-        
-<main className={history != null ? history.location.pathname != "/login" ? classes.content : "" : ""}>
+
+            <main className={history != null ? history.location.pathname != "/login" ? classes.content : "" : ""}>
 
 
-<div className={history != null ? history.location.pathname != "/login" ? classes.toolbar : "" : ""} />
+                <div className={history != null ? history.location.pathname != "/login" ? classes.toolbar : "" : ""} />
                 {props.children}
             </main>
         </div>
