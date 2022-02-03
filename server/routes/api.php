@@ -25,13 +25,23 @@ Route::group(['prefix' => 'v1'], function () {
     });
     Route::post('users', 'App\Http\Controllers\v1\Seguridad\UsuarioController@create');
     Route::get('roles', 'App\Http\Controllers\v1\Seguridad\RoleController@roles');
+    Route::post('roles', 'App\Http\Controllers\v1\Seguridad\RoleController@create');
+    Route::delete('roles/{id}', 'App\Http\Controllers\v1\Seguridad\RoleController@deleteRole');
+    Route::put('roles/{id}', 'App\Http\Controllers\v1\Seguridad\RoleController@editar');
+
+    Route::get('get_by_role', 'App\Http\Controllers\v1\Seguridad\RoleController@getPermissionByRol');
+
+    
     Route::get('user/role', 'App\Http\Controllers\v1\Seguridad\RoleController@getRoleByUser');
     Route::get('user_tasks', 'App\Http\Controllers\v1\Tareas\TaskController@usersTasks');
 
 
     Route::get('total_tasks', 'App\Http\Controllers\v1\Tareas\TaskController@tareasTotales');
 
-    
+    Route::get('permissions', 'App\Http\Controllers\v1\Seguridad\PermissionController@index');
+    Route::delete('permissions/{id}', 'App\Http\Controllers\v1\Seguridad\PermissionController@delete');
+    Route::put('permissions/{id}', 'App\Http\Controllers\v1\Seguridad\PermissionController@update');
+    Route::post('permissions', 'App\Http\Controllers\v1\Seguridad\PermissionController@create');
 
 
     Route::middleware('auth:api')->group(function () {
@@ -42,7 +52,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('users/{id}', 'App\Http\Controllers\v1\Seguridad\UsuarioController@show');
         Route::delete('users/{id}', 'App\Http\Controllers\v1\Seguridad\UsuarioController@delete');
 
+        Route::get('get_permissions', 'App\Http\Controllers\v1\Seguridad\RoleController@obtenerPermisosAuth');
+
         
+
         Route::get('tareas_auth', 'App\Http\Controllers\v1\Tareas\TaskController@indexAuth');
         Route::get('pending_tasks', 'App\Http\Controllers\v1\Tareas\TaskController@pendingTask');
 

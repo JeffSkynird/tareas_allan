@@ -1,7 +1,100 @@
 import {encriptarJson,desencriptarJson} from '../security'
 import {ENTRYPOINT} from '../../config/API'
 const axios = require('axios');
+export const crear = (data, store ,limpiar)=> {
+  const { usuario, mostrarNotificacion, mostrarLoader } = store;
+ 
 
+  let url = ENTRYPOINT+"roles";
+  let setting = {
+    method: "POST",
+    url: url,
+    data: data,
+    body: data,
+    headers: { Accept: "application/json",  Authorization: "Bearer " + JSON.parse(desencriptarJson(usuario)).token, },
+  };
+  mostrarLoader(true);
+
+  axios(setting)
+    .then((res) => {
+      let response = res.data;
+      if (response.type != "error") {
+        mostrarLoader(false);
+        mostrarNotificacion({ type: "success", message: response.message });
+        limpiar()
+      } else {
+        mostrarNotificacion({ type: "error", message: response.message });
+        mostrarLoader(false);
+      }
+    })
+    .catch((error) => {
+      mostrarLoader(false);
+
+      mostrarNotificacion({ type: "error", message: error.message });
+    });
+};
+export const editar = (id,data,store,limpiar )=> {
+  const { usuario, mostrarNotificacion, mostrarLoader } = store;
+ 
+
+  let url = ENTRYPOINT+"roles/"+id;
+  let setting = {
+    method: "PUT",
+    url: url,
+    data: data,
+    body: data,
+    headers: { Accept: "application/json",  Authorization: "Bearer " + JSON.parse(desencriptarJson(usuario)).token, },
+  };
+  mostrarLoader(true);
+
+  axios(setting)
+    .then((res) => {
+      let response = res.data;
+      if (response.type != "error") {
+       
+        mostrarLoader(false);
+        mostrarNotificacion({ type: "success", message: response.message });
+        limpiar()
+      } else {
+        mostrarNotificacion({ type: "error", message: response.message });
+        mostrarLoader(false);
+      }
+    })
+    .catch((error) => {
+      mostrarLoader(false);
+
+      mostrarNotificacion({ type: "error", message: error.message });
+    });
+};
+export const obtenerPermisosPorRol = (id,setData,store) => {
+
+  const { usuario, cargarUsuario, mostrarNotificacion, mostrarLoader } = store;
+  let url = ENTRYPOINT+"get_by_role?rol_id="+id
+  let setting = {
+    method: "Get",
+    url: url,
+    headers: { 'Accept': 'application/json',  Authorization: "Bearer " + JSON.parse(desencriptarJson(usuario)).token, }
+
+  };
+
+
+  axios(setting)
+    .then((res) => {
+      let response = res.data
+     if(response.type!="error"){
+        setData(response.data)
+     
+
+     }else{
+     
+     }
+    })
+    .catch((error) => {
+     
+
+
+    });
+}
 export const obtenerRolUsuario = (id,setData,store) => {
 
   const { usuario, cargarUsuario, mostrarNotificacion, mostrarLoader } = store;
@@ -251,7 +344,7 @@ export const obtenerTodos = (setData,store) => {
   export const eliminarRole = (city_id,store,cargarData) => {
     const { usuario, cargarUsuario, mostrarNotificacion, mostrarLoader } = store;
   
-    let url = ENTRYPOINT+"role/delete";
+    let url = ENTRYPOINT+"roles/"+city_id;
     var raw = {
         rol:city_id,
     };

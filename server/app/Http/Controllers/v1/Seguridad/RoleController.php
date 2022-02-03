@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\v1\Seguridad;
 
 use App\Http\Controllers\Controller;
+use App\Models\Permission;
 use App\Models\Rol;
+use App\Models\RolPermission;
 use Illuminate\Http\Request;
 use \Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 class RoleController extends Controller
 {
     public function deleteRole($id)
@@ -47,6 +51,20 @@ class RoleController extends Controller
             ],400);
         }
     }
+    public function getPermissionByRol(Request $request){
+        try{
+            $user = RolPermission::join('permissions','rol_permissions.permission_id','permissions.id')->select('permissions.*')->where('rol_id',$request->input('rol_id'))->get();
+           
+                return response([
+                    'data'=>$user,
+                ]);
+          
+        }catch(\Exception $exception){
+            return response([
+                'message'=>$exception->getMessage()
+            ],400);
+        }
+    }
     public function exists($value,$array,$id){
         $normalize="ASCII//TRANSLIT";
         $res = false;
@@ -61,8 +79,11 @@ class RoleController extends Controller
     }
     public function create(Request $request){
         try{
-       
+        $permisos = $request->input('permisos');
         $role = Rol::create(['name' => $request['nombre']]);
+        foreach ($permisos as $value) {
+           RolPermission::create(['rol_id' => $role->id, 'permission_id' => $value['id']]);
+        }
         return response([
             'data'=>$role,
             'type'=>'success',
@@ -75,13 +96,31 @@ class RoleController extends Controller
             ],400);
         }
     }
+    public function obtenerPermisosAuth(){
+
+        $user = User::find(Auth::id());
+        if($user!=null){
+            $data = RolPermission::join('permissions','rol_permissions.permission_id','permissions.id')->select('permissions.*')->where('rol_id',$user->rol_id)->get();
+            return response([
+                'data'=>$data,
+                'type'=>'success',
+                'message'=>'Registro exitoso'                                                                                                                         
+            ]);
+        }else{
+            return response([
+                'data'=>[],
+                'type'=>'success',
+                'message'=>'Registro exitoso'                                                                                                                         
+            ]);
+        }
+    }
     public function editar(Request $request,$id)
     {
         try {
             //VACIOS
 
             $vacios = Validator::make($request->all(), [
-                'name' => 'required',
+                'nombre' => 'required',
             ]);
             if ($vacios->fails()) {
                 return response([
@@ -91,8 +130,21 @@ class RoleController extends Controller
             }
 
                 $role= Rol::find($id);
-                $role->name = $request->input('name');
+                $role->name = $request->input('nombre');
                 $role->save();
+                //ELIMINAR PERMISOS ANTERIORES
+                $permisos = $request->input('permisos');
+
+                if(count($permisos)>0){
+                    RolPermission::where('rol_id',$id)->delete();
+
+                    
+                    foreach ($permisos as $value) {
+                        RolPermission::create(['rol_id' => $role->id, 'permission_id' => $value['id']]);
+                     }
+                }
+               
+
                 return response([
                     'message' => "Edición exitosa",
                     'type' => 'success',

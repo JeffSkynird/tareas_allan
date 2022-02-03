@@ -51,11 +51,11 @@ import SearchIcon from '@material-ui/icons/Search';
 import RoomIcon from '@material-ui/icons/Room';
 import logo from '../assets/logo1.jpg'
 import { Badge, Box, Button, Grid } from '@material-ui/core';
-import { obtenerPermisosAuth } from '../utils/API/roles';
+import { obtenerPermisos, obtenerPermisosAuth } from '../utils/API/roles';
 import { obtenerRol } from '../utils/API/usuarios';
-
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import { obtenerPermisosUser } from '../utils/API/permisos';
 const drawerWidth = 240;
 
 
@@ -189,7 +189,7 @@ function ResponsiveDrawer(props) {
             obtenerUsuario(setInfo, initializer)
 
             obtenerRol(JSON.parse(desencriptarJson(initializer.usuario)).user.id, setRol, initializer);
-
+            obtenerPermisosUser(setPermisos, initializer);
         }
     }, [initializer.usuario])
     React.useEffect(() => {
@@ -222,7 +222,15 @@ function ResponsiveDrawer(props) {
 
 
     }
-
+    const incluyePermiso = (val) => {
+        let existe = false
+        permisos.slice().map((e)=>{
+            if(val==e.id){
+                existe = true
+            }
+        })
+        return existe
+    }
     const drawer = (
         <div style={{ backgroundColor: '#111827', height: '100%' }} >
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
@@ -267,16 +275,15 @@ function ResponsiveDrawer(props) {
 
 
                     {
-                        rol == "Gerente" && (
+                       incluyePermiso(2) && (
                             <ListItem button onClick={() => props.history.push('/tareas')} style={comprobador('/tareas')}>
                                 <ListItemIcon style={{ color: '#9E9BA0' }} ><AssignmentIcon style={{ color: location.pathname == '/tareas' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
                                 <ListItemText primary={'Tareas'} style={{ color: location.pathname == '/tareas' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
                             </ListItem>
                         )
                     }
-
-                    {
-                        rol == "Empleado" && (
+{
+incluyePermiso(4) && (
 
                             <ListItem button onClick={() => props.history.push('/control')} style={comprobador('/control')}>
                                 <ListItemIcon style={{ color: '#9E9BA0' }} ><AssignmentTurnedInIcon style={{ color: location.pathname == '/control' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
@@ -286,7 +293,7 @@ function ResponsiveDrawer(props) {
                         )
                     }
                     {
-                        rol == "Gerente" && (
+                          incluyePermiso(3) && (
                             <ListItem button onClick={() => props.history.push('/personal')} style={comprobador('/personal')}>
                                 <ListItemIcon style={{ color: '#9E9BA0' }} ><PeopleOutlineIcon style={{ color: location.pathname == '/personal' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
                                 <ListItemText primary={'Personal'} style={{ color: location.pathname == '/personal' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
@@ -294,6 +301,14 @@ function ResponsiveDrawer(props) {
                         )
                     }
 
+{
+                   incluyePermiso(1) && (
+                            <ListItem button onClick={() => props.history.push('/seguridad')} style={comprobador('/seguridad')}>
+                                <ListItemIcon style={{ color: '#9E9BA0' }} ><SecurityIcon style={{ color: location.pathname == '/personal' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} /> </ListItemIcon>
+                                <ListItemText primary={'Seguridad'} style={{ color: location.pathname == '/seguridad' ? 'rgb(16, 185, 129)' : '#9E9BA0' }} />
+                            </ListItem>
+                        )
+                    }
 
 
 

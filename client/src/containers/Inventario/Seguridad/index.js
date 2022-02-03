@@ -15,12 +15,11 @@ import Initializer from '../../../store/Initializer'
 
 import { LocalizationTable, TableIcons, removeAccent } from '../../../utils/table.js'
 import MaterialTable from "material-table";
-import { Chip, Grid } from '@material-ui/core';
-import { obtenerTodosAuth } from '../../../utils/API/tareas';
+import { Grid } from '@material-ui/core';
 import Crear from './componentes/Crear'
 import Eliminar from './componentes/Eliminar'
 import Filtro from './componentes/Filtro'
-import Check from '@material-ui/icons/Check';
+import { obtenerTodos } from '../../../utils/API/roles';
 
 export default function Sistemas(props) {
     const initializer = React.useContext(Initializer);
@@ -34,11 +33,11 @@ export default function Sistemas(props) {
 
     React.useEffect(() => {
         if (initializer.usuario != null) {
-            obtenerTodosAuth(setData, initializer)
+            obtenerTodos(setData, initializer)
         }
     }, [initializer.usuario])
     const carga = () => {
-        obtenerTodosAuth(setData, initializer)
+        obtenerTodos(setData, initializer)
         setSelected(null)
         setSelected2(null)
     }
@@ -57,11 +56,17 @@ export default function Sistemas(props) {
 
             <Grid item xs={12} md={12} style={{display:'flex',justifyContent:'space-between'}}>
                 <Typography variant="h5" >
-                    Tareas
+                    Roles
                 </Typography>
+            
             </Grid>
-
- 
+            <Grid item xs={12} md={12} style={{display:'flex',justifyContent:'space-between'}}>
+            <Button onClick={() => setOpen(true)} startIcon={<AddIcon />} variant="contained" color="primary">
+                        Nuevo
+                    </Button>
+            </Grid>
+      
+      
       
             <Grid item xs={12}>
                 <MaterialTable
@@ -69,19 +74,7 @@ export default function Sistemas(props) {
                     columns={[
                       
                         { title: "Nombre", field: "name" },
-                        { title: "Asignado por", field: "user" },
-                        { title: "Completada", field: "is_complete", render: rowData => 
-                        <Chip label={rowData.is_complete==1?'Si':'No'} color={rowData.is_complete==1?'primary':'secondary'}  /> 
-                       
-                        },
-                        { title: "Porcentaje", field: "percent", render: rowData =>
-
-                        <Chip label={rowData.percent+"%"} />}
-,
-                      
                         { title: "Registro", field: "created_at", type: "datetime" },
-
-
                     ]}
                     data={
                         data
@@ -91,15 +84,24 @@ export default function Sistemas(props) {
 
                     actions={[
                         {
-                            icon: TableIcons.VisibilityOutlinedIcon,
+                            icon: TableIcons.Edit,
                             tooltip: 'Editar',
 
                             onClick: (event, rowData) => {
                                 setSelected(rowData)
                                 setOpen(true)
                             }
-                        }
+                        },
+                        {
+                            icon: TableIcons.Delete,
+                            tooltip: "Borrar",
 
+                            onClick: (event, rowData) => {
+                                setSelected2(rowData)
+                                setOpen2(true)
+                            }
+                        },
+                    
                     ]}
 
                     options={{

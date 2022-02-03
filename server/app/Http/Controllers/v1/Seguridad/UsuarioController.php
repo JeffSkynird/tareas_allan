@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class UsuarioController extends Controller
 {
     public function index(){
-        $usuarios = User::join('rols','rols.id','users.rol_id') ->where('rol_id',2)->select('users.*','rols.name as rol')->get();
+        $usuarios = User::join('rols','rols.id','users.rol_id')->select('users.*','rols.name as rol')->get();
         return json_encode([
             "status" => "200",
             "data"=> $usuarios,

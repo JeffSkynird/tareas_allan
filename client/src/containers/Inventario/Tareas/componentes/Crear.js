@@ -118,14 +118,31 @@ export default function Crear(props) {
                                 <TextField
                                     style={{ width: '100%' }}
                                     variant="filled"
-
+                                    disabled
                                     label="Observación"
                                     value={observacion}
                                 />
                             </Grid>
                         )
                     }
+ {
+                        props.sistema != null && (
+                            <Grid item xs={12} md={12}>
+                                <TextField
 
+                                    style={{ width: '100%' }}
+                                    variant="outlined"
+                                        disabled
+                                    label="Porcentaje"
+                                    value={props.sistema.percent}
+                                    InputProps={{
+                                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                    }}
+                                />
+                            </Grid>
+
+                        )
+                        }
                 </Grid>
 
             </DialogContent>

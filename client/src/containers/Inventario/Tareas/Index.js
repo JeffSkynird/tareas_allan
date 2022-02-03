@@ -74,6 +74,9 @@ export default function Sistemas(props) {
                         <Chip label={rowData.is_complete==1?'Si':'No'} color={rowData.is_complete==1?'primary':'secondary'}  /> 
                        
                         },
+                        { title: "Porcentaje", field: "percent", render: rowData =>
+
+                        <Chip label={rowData.percent+"%"} />},
                         { title: "Registro", field: "created_at", type: "datetime" },
 
 

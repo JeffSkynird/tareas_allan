@@ -39,7 +39,7 @@ import Panel from './containers/panel/Panel';
 import Tareas from  './containers/Inventario/Tareas/Index'
 import Control from  './containers/Inventario/Control/Index'
 import Redirecting from './containers/Redirect'
-
+import Seguridad from './containers/Inventario/Seguridad'
 import { green,red } from '@material-ui/core/colors';
 
 function Alert(props) {
@@ -178,6 +178,7 @@ export default function App(props) {
                   <Route exact path="/panel" component={Panel} />
                   <Route exact path="/tareas" component={Tareas} />
                   <Route exact path="/control" component={Control} />
+                  <Route exact path="/seguridad" component={Seguridad} />
 
                   <Route exact path="/personal" component={Personal} />
 
