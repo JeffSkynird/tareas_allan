@@ -12,8 +12,9 @@ import Slide from '@material-ui/core/Slide';
 import { Avatar, FormControl, Grid, IconButton, InputAdornment, InputLabel, MenuItem, Select, FormControlLabel, Checkbox, Slider, Input } from '@material-ui/core';
 import { obtenerTodos, } from '../../../../utils/API/usuarios';
 import { Autocomplete } from '@material-ui/lab';
-import { editar, registrar } from '../../../../utils/API/tareas';
+import { editar, obtenerUsuariosTarea, registrar } from '../../../../utils/API/tareas';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { desencriptarJson } from '../../../../utils/security';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -23,17 +24,24 @@ export default function Crear(props) {
     const [completada, setCompletada] = React.useState(false)
     const [observacion, setObservacion] = React.useState("")
     const [value, setValue] = React.useState(0)
+    const [asignados, setAsignados] = React.useState([])
+    const [auth,setAuth]= React.useState(0)
     React.useEffect(() => {
         if (initializer.usuario != null) {
             obtenerTodos(setUsers, initializer)
+            setAuth(JSON.parse(desencriptarJson(initializer.usuario)).user.id)
         }
 
     }, [initializer.usuario])
+    const buscarUsuarios = (e) => {
+        obtenerUsuariosTarea(e, setAsignados, initializer)
+    }
     React.useEffect(() => {
         if (props.sistema != null) {
             setObservacion(props.sistema.observacion)
             setCompletada(props.sistema.is_complete == 1 ? true : false)
-            setValue(props.sistema.percent)
+            //setValue(props.sistema.percent)
+            buscarUsuarios(props.sistema.id)
 
         }
     }, [props.sistema])
@@ -54,15 +62,31 @@ export default function Crear(props) {
         props.setSelected(null)
         props.carga()
     }
-    const handleSliderChange = (event, newValue) => {
-        setValue(newValue);
-        if(newValue!=100){
-            setCompletada(false)
+    const handleSliderChange = (newValue,id) => {
+        setValue(newValue)
+     
+    };
+    const existe=(id)=>{
+        let temp=value.slice()
+        let existe=false
+        temp.forEach(element => {
+            if(element.id==id){
+                existe=true
+            }
+        });
+        return existe
+    }
+
+    const obtenerValor=(id)=>{
+
+        if(id==auth){
+            return value
         }else{
-            setCompletada(true)
+            return 0
         }
-      };
     
+    }
+
     return (
         <Dialog
             open={props.open}
@@ -93,55 +117,65 @@ export default function Crear(props) {
                         onChange={(e) => setObservacion(e.target.value)}
 
                     /></Grid>
-                    <Grid item xs={12}>
+                  {/*   <Grid item xs={12}>
                         <FormControlLabel
                             label="Completada"
                             control={
                                 <Checkbox
                                     value=""
                                     checked={completada}
-                                    onChange={() =>{
-                                         setCompletada(!completada)
-                                         if((!completada)==true){
+                                    onChange={() => {
+                                        setCompletada(!completada)
+                                        if ((!completada) == true) {
                                             setValue(100)
-                                         }else{
+                                        } else {
                                             setValue(0)
-                                         }
-                                    
+                                        }
+
                                     }
                                     }
                                     color="primary"
                                 />
                             }
                         />
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12}>
-                    <Grid container spacing={2} alignItems="center">
-                        <Grid item>
-                            <CheckCircleOutlineIcon color="primary"/>
-                        </Grid>
-                        <Grid item xs>
-                            <Slider
-                                value={typeof value === 'number' ? value : 0}
-                                onChange={handleSliderChange}
-                                valueLabelDisplay="auto"
-                                marks={
-                                   [
-                                        {
-                                          value: 0,
-                                          label: '0%',
-                                        },
-                                        {
-                                          value: 100,
-                                          label: '100%',
-                                        }]
-                                    
-                                }
-                                aria-labelledby="input-slider"
-                            />
-                        </Grid>
-                  
-                    </Grid>
+                        {
+                            asignados.map((e) => (
+                                <Grid container spacing={2} alignItems="center">
+                                    <Grid item xs={12}>
+                                    <span>{e.names+" "+e.last_names}</span>
+                                    </Grid>
+                                    <Grid item>
+                                        <CheckCircleOutlineIcon color="primary" />
+                                    </Grid>
+                                    <Grid item xs>
+                                        <Slider
+                                            value={typeof value === 'number' ? obtenerValor(e.id) : 0}
+                                            onChange={(e,n)=>handleSliderChange(n,e.id)}
+                                            disabled={e.id != auth ? true : false}
+                                            valueLabelDisplay="auto"
+                                            marks={
+                                                [
+                                                    {
+                                                        value: 0,
+                                                        label: '0%',
+                                                    },
+                                                    {
+                                                        value: 100,
+                                                        label: '100%',
+                                                    }]
+
+                                            }
+                                            aria-labelledby="input-slider"
+                                        />
+                                    </Grid>
+
+                                </Grid>
+
+                            ))
+                        }
+
                     </Grid>
                 </Grid>
 

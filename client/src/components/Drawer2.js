@@ -332,7 +332,7 @@ incluyePermiso(4) && (
     );
 
     const container = window !== undefined ? () => window().document.body : undefined;
-    console.log(history)
+   
     return (
         <div className={ history.location.pathname != "/login"?classes.root:""}>
             <CssBaseline />

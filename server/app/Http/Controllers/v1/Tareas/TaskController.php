@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1\Tareas;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use App\Models\TaskUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,9 +14,7 @@ class TaskController extends Controller
     public function index()
     {
         try {
-            $data = Task::join('users', 'users.id', '=', 'tasks.asigned_to')
-            ->where('users.rol_id',2)
-                ->select('tasks.*', 'users.names as user')
+            $data = Task::select('tasks.*')
                 ->get();
             return json_encode([
                 "status" => "200",
@@ -47,6 +46,23 @@ class TaskController extends Controller
                 ->get();
             }
             
+            return json_encode([
+                "status" => "200",
+                'data'=>$data,
+                "message" => 'Data obtenida con éxito',
+                "type" => 'success'
+            ]);
+        } catch (\Exception $e) {
+            return json_encode([
+                "status" => "500",
+                "message" => $e->getMessage(),
+                "type" => 'error'
+            ]);
+        }
+    }
+    public function showAsigned($id){
+        try {
+            $data = TaskUser::join('users','task_users.user_id','users.id')->where('task_id',$id)->select('users.*')->get();
             return json_encode([
                 "status" => "200",
                 'data'=>$data,
@@ -126,8 +142,9 @@ class TaskController extends Controller
     {
         try {
             $data = Task::join('users', 'users.id', '=', 'tasks.user_id')
+                ->join('task_users', 'task_users.task_id', '=', 'tasks.id')
+                ->where('task_users.user_id', Auth::user()->id)
                 ->select('tasks.*', 'users.names as user')
-                ->where('tasks.asigned_to', Auth::user()->id)
                 ->get();
             return json_encode([
                 "status" => "200",
@@ -146,8 +163,16 @@ class TaskController extends Controller
     public function create(Request $request)
     {
         try {
-            $request['user_id']=Auth::id();
-            Task::create($request->all());
+            $asigned = $request->input('asigned_to');
+            $data = $request->input('task');
+            $data['user_id']=Auth::id();
+            $task = Task::create($data);
+            foreach ($asigned as  $value) {
+                TaskUser::create( [
+                    'user_id'=>$value['id'],
+                    'task_id'=>$task->id
+                ]);
+            }
             return json_encode([
                 "status" => "200",
                 "message" => 'Registro exitoso',

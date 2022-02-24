@@ -43,6 +43,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::put('permissions/{id}', 'App\Http\Controllers\v1\Seguridad\PermissionController@update');
     Route::post('permissions', 'App\Http\Controllers\v1\Seguridad\PermissionController@create');
 
+    
+    Route::get('task_users/{id}', 'App\Http\Controllers\v1\Tareas\TaskController@showAsigned');
 
     Route::middleware('auth:api')->group(function () {
         Route::put('user', 'App\Http\Controllers\v1\Seguridad\UsuarioController@updateAuth');

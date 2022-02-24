@@ -68,7 +68,6 @@ export default function Sistemas(props) {
                     columns={[
                       
                         { title: "Nombre", field: "name" },
-                        { title: "Asignado a", field: "user" },
                         { title: "Observacion", field: "observacion" },
                         { title: "Completada", field: "is_complete", render: rowData => 
                         <Chip label={rowData.is_complete==1?'Si':'No'} color={rowData.is_complete==1?'primary':'secondary'}  /> 
