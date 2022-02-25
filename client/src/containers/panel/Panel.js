@@ -286,7 +286,7 @@ export default function Sistemas(props) {
                         { title: "Empleado", field: "user" },
 
                         {
-                            title: "Puntaje", field: "completas", render: rowData => <span style={{fontWeight:'bold',color:colorPuntaje(rowData.completas/(rowData.total!=0?rowData.total:1))}} >{(rowData.completas/(rowData.total!=0?rowData.total:1))*100}%</span>
+                            title: "Completas", field: "total", render: rowData => <span style={{fontWeight:'bold'}}>{rowData.total}</span>
                         },
 
 

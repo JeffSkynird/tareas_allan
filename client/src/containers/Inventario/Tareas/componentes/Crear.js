@@ -189,7 +189,7 @@ export default function Crear(props) {
                             <Grid item xs={12} md={12}>
                                 <TextField
                                     style={{ width: '100%' }}
-                                    variant="filled"
+                                    variant="outlined"
                                 
                                     label="Observación"
                                     value={observacion}

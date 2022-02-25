@@ -39,11 +39,12 @@ class TaskController extends Controller
             $hasta = $request->input('hasta');
 
             if(is_null($userId)){
-                $data = User::where('rol_id',2)->selectRaw("(select count(*) from tasks  where tasks.asigned_to = users.id) as total, (select count(*) from tasks where tasks.asigned_to = users.id and tasks.is_complete = 1) as completas, users.names||' '||users.last_names as user")
-                ->get();
+              //  $data = User::where('rol_id',2)->selectRaw("(select count(*) from tasks  where tasks.asigned_to = users.id) as total, (select count(*) from tasks where tasks.asigned_to = users.id and tasks.is_complete = 1) as completas, users.names||' '||users.last_names as user")->get();
+               // $data = User::selectRaw("(select count(*) from task_users where percent=100) as total, users.names||' '||users.last_names as user" )->get();
+                $data = User::join('task_users', 'task_users.user_id', '=', 'users.id')->selectRaw("(select count(*) from task_users where percent=100 and users.id=task_users.user_id) as total, users.names||' '||users.last_names as user" )->get();
             }else{
-                $data = User::where('rol_id',2)->where('id',$userId)->selectRaw("(select count(*) from tasks  where tasks.asigned_to = users.id) as total, (select count(*) from tasks where tasks.asigned_to = users.id and tasks.is_complete = 1) as completas, users.names||' '||users.last_names as user")
-                ->get();
+               // $data = User::where('rol_id',2)->where('id',$userId)->selectRaw("(select count(*) from tasks  where tasks.asigned_to = users.id) as total, (select count(*) from tasks where tasks.asigned_to = users.id and tasks.is_complete = 1) as completas, users.names||' '||users.last_names as user")->get();
+               $data = User::where('id',$userId)->selectRaw("(select count(*) from task_users where percent=100) as total, users.names||' '||users.last_names as user" )->get();
             }
 
             return json_encode([
@@ -226,7 +227,14 @@ class TaskController extends Controller
                 //ACTUALIANDO PORCENTAJE GLOBAL
                 $sum = TaskUser::where('task_id',$id)->sum('percent');
                 $count = TaskUser::where('task_id',$id)->count();
-                $co->update(['percent'=>$sum/$count]);
+                $total = $sum/$count;
+                if($total==100){
+                    $co->update(['percent'=>$sum/$count,'is_complete'=>1]);
+                }else{
+                    $co->update(['percent'=>$sum/$count]);
+                }
+            
+
             }
 
 
