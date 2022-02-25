@@ -168,8 +168,7 @@ class TaskController extends Controller
             $data['user_id']=Auth::id();
             $data['percent']=0;
             $task = Task::create($data);
-            //elimina los registros anteriores
-            TaskUser::where('task_id',$task->id)->delete();
+        
             foreach ($asigned as  $value) {
                 TaskUser::create( [
                     'user_id'=>$value['id'],
@@ -202,18 +201,35 @@ class TaskController extends Controller
     public function update(Request $request,$id){
         try {
             $task = $request->input('task');
+            $asigned = $request->input('asigned_to');
             $value = $request->input('value_user');
             $co = Task::find($id);
             $co->update($task);
-            TaskUser::where([
-                'task_id'=>$id,
-                'user_id'=>Auth::id()
-            ])->update(['percent'=>$value]);
 
-            //ACTUALIANDO PORCENTAJE GLOBAL
-            $sum = TaskUser::where('task_id',$id)->sum('percent');
-            $count = TaskUser::where('task_id',$id)->count();
-            $co->update(['percent'=>$sum/$count]);
+            if($value==null){
+                //ELimina los registros anteriores
+                TaskUser::where('task_id',$id)->delete();
+                foreach ($asigned as  $value) {
+                    TaskUser::create( [
+                        'user_id'=>$value['id'],
+                        'task_id'=>$task->id
+                    ]);
+                }
+    
+            }else{
+                TaskUser::where([
+                    'task_id'=>$id,
+                    'user_id'=>Auth::id()
+                ])->update(['percent'=>$value]);
+    
+                //ACTUALIANDO PORCENTAJE GLOBAL
+                $sum = TaskUser::where('task_id',$id)->sum('percent');
+                $count = TaskUser::where('task_id',$id)->count();
+                $co->update(['percent'=>$sum/$count]);
+            }
+          
+
+          
 
             return json_encode([
                 "status" => "200",
