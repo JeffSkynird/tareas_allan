@@ -62,7 +62,7 @@ class TaskController extends Controller
     }
     public function showAsigned($id){
         try {
-            $data = TaskUser::join('users','task_users.user_id','users.id')->where('task_id',$id)->select('users.*')->get();
+            $data = TaskUser::join('users','task_users.user_id','users.id')->where('task_id',$id)->select('users.*','task_users.percent')->get();
             return json_encode([
                 "status" => "200",
                 'data'=>$data,
@@ -198,8 +198,20 @@ class TaskController extends Controller
     }
     public function update(Request $request,$id){
         try {
+            $task = $request->input('task');
+            $value = $request->input('value_user');
             $co = Task::find($id);
-            $co->update($request->all());
+            $co->update($task);
+            TaskUser::where([
+                'task_id'=>$id,
+                'user_id'=>Auth::id()
+            ])->update(['percent'=>$value]);
+
+            //ACTUALIANDO PORCENTAJE GLOBAL
+            $sum = TaskUser::where('task_id',$id)->sum('percent');
+            $count = TaskUser::where('task_id',$id)->count();
+            $co->update(['percent'=>$sum/$count]);
+
             return json_encode([
                 "status" => "200",
                 "message" => 'Modificación exitosa',

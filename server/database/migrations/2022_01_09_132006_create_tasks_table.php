@@ -18,7 +18,7 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->foreignId('user_id')->constrained('users');
             $table->integer('is_complete')->default(0);
-            $table->integer('percent')->default(0);
+            $table->double('percent', 8, 2)->default(0);
             $table->string('observacion')->nullable();
             $table->timestamps();
         });

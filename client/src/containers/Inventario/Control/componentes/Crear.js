@@ -47,9 +47,10 @@ export default function Crear(props) {
     }, [props.sistema])
     const guardar = () => {
         let data = {
-            'observacion': observacion,
-            'is_complete': completada,
-            'percent': value
+            'task':{
+                'observacion': observacion,
+            },
+            'value_user': value
         }
 
         editar(props.sistema.id, data, initializer, limpiar)
@@ -59,6 +60,7 @@ export default function Crear(props) {
     const limpiar = () => {
         setCompletada(false)
         setObservacion("")
+        setValue(0)
         props.setSelected(null)
         props.carga()
     }
@@ -79,8 +81,13 @@ export default function Crear(props) {
 
     const obtenerValor=(id)=>{
 
-        if(id==auth){
-            return value
+        if(id.id==auth){
+            if(value==0){
+                return id.percent
+            }else{
+                return value
+            }
+      
         }else{
             return 0
         }
@@ -151,7 +158,7 @@ export default function Crear(props) {
                                     </Grid>
                                     <Grid item xs>
                                         <Slider
-                                            value={typeof value === 'number' ? obtenerValor(e.id) : 0}
+                                            value={typeof value === 'number' ? obtenerValor(e) : 0}
                                             onChange={(e,n)=>handleSliderChange(n,e.id)}
                                             disabled={e.id != auth ? true : false}
                                             valueLabelDisplay="auto"
