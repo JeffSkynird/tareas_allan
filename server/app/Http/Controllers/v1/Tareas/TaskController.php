@@ -209,9 +209,9 @@ class TaskController extends Controller
             if($value==null){
                 //ELimina los registros anteriores
                 TaskUser::where('task_id',$id)->delete();
-                foreach ($asigned as  $value) {
+                foreach ($asigned as  $value2) {
                     TaskUser::create( [
-                        'user_id'=>$value['id'],
+                        'user_id'=>$value2['id'],
                         'task_id'=>$task->id
                     ]);
                 }
