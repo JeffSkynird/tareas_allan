@@ -166,7 +166,10 @@ class TaskController extends Controller
             $asigned = $request->input('asigned_to');
             $data = $request->input('task');
             $data['user_id']=Auth::id();
+            $data['percent']=0;
             $task = Task::create($data);
+            //elimina los registros anteriores
+            TaskUser::where('task_id',$task->id)->delete();
             foreach ($asigned as  $value) {
                 TaskUser::create( [
                     'user_id'=>$value['id'],
