@@ -4,12 +4,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Initializer from '../../../../store/Initializer'
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import Slide from '@material-ui/core/Slide';
-import { Avatar, Chip, FormControl, Grid, IconButton, InputAdornment, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { Avatar, Chip, FormControl, Grid, IconButton, InputAdornment, InputLabel, MenuItem, Select, Slider } from '@material-ui/core';
 import { obtenerTodos, } from '../../../../utils/API/usuarios';
 import { Autocomplete } from '@material-ui/lab';
 import { editar, obtenerUsuariosTarea, registrar } from '../../../../utils/API/tareas';
@@ -32,6 +33,7 @@ export default function Crear(props) {
         }
 
     }, [initializer.usuario])
+   
     React.useEffect(() => {
         if (props.sistema != null) {
             setNombre(props.sistema.name)
@@ -114,6 +116,12 @@ export default function Crear(props) {
             })
             return encontrado
         }
+        const obtenerValor=(id)=>{
+
+          
+                return id.percent
+           
+        }
     return (
         <Dialog
             open={props.open}
@@ -182,7 +190,7 @@ export default function Crear(props) {
                                 <TextField
                                     style={{ width: '100%' }}
                                     variant="filled"
-                                    disabled
+                                
                                     label="Observación"
                                     value={observacion}
                                 />
@@ -196,8 +204,8 @@ export default function Crear(props) {
 
                                     style={{ width: '100%' }}
                                     variant="outlined"
-                                    disabled
-                                    label="Porcentaje"
+                                    
+                                    label="Porcentaje total"
                                     value={props.sistema.percent}
                                     InputProps={{
                                         endAdornment: <InputAdornment position="end">%</InputAdornment>,
@@ -207,6 +215,44 @@ export default function Crear(props) {
 
                         )
                     }
+                     <Grid item xs={12}>
+                        {
+                            asignados.map((e) => (
+                                <Grid container spacing={2} alignItems="center">
+                                    <Grid item xs={12}>
+                                    <span>{e.names+" "+e.last_names} ({e.percent}%)</span>
+                                    </Grid>
+                                    <Grid item>
+                                        <CheckCircleOutlineIcon color="primary" />
+                                    </Grid>
+                                    <Grid item xs>
+                                        <Slider
+                                            value={typeof e.percent === 'number' ? obtenerValor(e) : 0}
+                                       
+                                           
+                                            valueLabelDisplay="auto"
+                                            marks={
+                                                [
+                                                    {
+                                                        value: 0,
+                                                        label: '0%',
+                                                    },
+                                                    {
+                                                        value: 100,
+                                                        label: '100%',
+                                                    }]
+
+                                            }
+                                            aria-labelledby="input-slider"
+                                        />
+                                    </Grid>
+
+                                </Grid>
+
+                            ))
+                        }
+
+                    </Grid>
                 </Grid>
 
             </DialogContent>
