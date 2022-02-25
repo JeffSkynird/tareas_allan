@@ -65,7 +65,11 @@ export default function Crear(props) {
         props.carga()
     }
     const handleSliderChange = (newValue,id) => {
-        setValue(newValue)
+       
+        if(id==auth){
+            setValue(newValue)
+
+        }
      
     };
     const existe=(id)=>{
@@ -89,7 +93,7 @@ export default function Crear(props) {
             }
       
         }else{
-            return 0
+            return id.percent
         }
     
     }
@@ -159,8 +163,8 @@ export default function Crear(props) {
                                     <Grid item xs>
                                         <Slider
                                             value={typeof value === 'number' ? obtenerValor(e) : 0}
-                                            onChange={(e,n)=>handleSliderChange(n,e.id)}
-                                            disabled={e.id != auth ? true : false}
+                                            onChange={(ea,n)=>handleSliderChange(n,e.id)}
+                                           
                                             valueLabelDisplay="auto"
                                             marks={
                                                 [

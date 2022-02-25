@@ -30,7 +30,7 @@ class TaskController extends Controller
             ]);
         }
     }
-   
+
     public function usersTasks(Request $request)
     {
         try {
@@ -45,7 +45,7 @@ class TaskController extends Controller
                 $data = User::where('rol_id',2)->where('id',$userId)->selectRaw("(select count(*) from tasks  where tasks.asigned_to = users.id) as total, (select count(*) from tasks where tasks.asigned_to = users.id and tasks.is_complete = 1) as completas, users.names||' '||users.last_names as user")
                 ->get();
             }
-            
+
             return json_encode([
                 "status" => "200",
                 'data'=>$data,
@@ -168,7 +168,7 @@ class TaskController extends Controller
             $data['user_id']=Auth::id();
             $data['percent']=0;
             $task = Task::create($data);
-        
+
             foreach ($asigned as  $value) {
                 TaskUser::create( [
                     'user_id'=>$value['id'],
@@ -207,29 +207,30 @@ class TaskController extends Controller
             $co->update($task);
 
             if($value==null){
+
                 //ELimina los registros anteriores
                 TaskUser::where('task_id',$id)->delete();
                 foreach ($asigned as  $value2) {
                     TaskUser::create( [
                         'user_id'=>$value2['id'],
-                        'task_id'=>$task->id
+                        'task_id'=>$id
                     ]);
                 }
-    
+
             }else{
                 TaskUser::where([
                     'task_id'=>$id,
                     'user_id'=>Auth::id()
                 ])->update(['percent'=>$value]);
-    
+
                 //ACTUALIANDO PORCENTAJE GLOBAL
                 $sum = TaskUser::where('task_id',$id)->sum('percent');
                 $count = TaskUser::where('task_id',$id)->count();
                 $co->update(['percent'=>$sum/$count]);
             }
-          
 
-          
+
+
 
             return json_encode([
                 "status" => "200",
@@ -244,7 +245,7 @@ class TaskController extends Controller
             ]);
         }
     }
-  
+
     public function delete($id)
     {
         $data = Task::find($id);
